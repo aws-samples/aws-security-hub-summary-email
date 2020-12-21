@@ -2,9 +2,7 @@
 
 This solution uses Security Hub custom insights, AWS Lambda, and the Security Hub API. A custom insight is a collection of findings that are aggregated by a grouping attribute, such as severity or status. Insights help you identify common security issues that may require remediation action. Security Hub includes several managed insights, or you can create your own custom insights.  
 
-Setup weekly email notifications to account owners with a summary of the existing security findings to prioritize, new findings, and links to the Security Hub console for more information. 
-
-### overview
+### Overview
 A recurring Security Hub Summary email will provide recipients with a proactive communication summarizing the security posture and improvement within their AWS Accounts.  The email message contains the following sections:
 
 - AWS Foundational Security Best Practices findings by status
@@ -15,7 +13,7 @@ A recurring Security Hub Summary email will provide recipients with a proactive 
 - New findings in the last 7 days by security product 
 - Top 10 resource types with the most findings
 
-### Here’s how the solution works:
+### Here’s how the solution works
 1.	Seven Security Hub custom insights are created when the solution is first deployed.
 2.	A CloudWatch time-based event invokes a Lambda function for processing.
 3.	The Lambda function gets results of the custom insights from Security Hub, formats the results for email and sends a message to SNS.
