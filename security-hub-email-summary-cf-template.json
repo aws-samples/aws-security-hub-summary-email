@@ -27,6 +27,11 @@
         "AdditionalEmailFooterText": {
                 "Description": "Additional text to append at the end of email message.",
                 "Type": "String"
+            },
+        "KmsKeyId": {
+              "Description": "KMS key ARN to be used for SNS topic encryption. Check out KMS console to find the default key or create a new one.",
+              "Type": "String",
+              "Default": ""
             }
         },
         "Metadata": {
@@ -43,6 +48,14 @@
                             "RecurringScheduleCron",
                             "AdditionalEmailFooterText"
                         ]
+                    },
+                    {
+                      "Label": {
+                          "default": "Recommended"
+                      },
+                      "Parameters": [
+                          "KmsKeyId"
+                      ]
                     }
                 ],
                 "ParameterLabels" : {
@@ -50,7 +63,8 @@
                     "S3KeyName": {"default": "S3 Key Name (with Prefix):"},
                     "RecurringScheduleCron": {"default": "CloudWatch Cron Expression:"},
                     "EmailAddress": {"default": "Email address:"},
-                    "AdditionalEmailFooterText": {"default": "Additional Footer text:"}
+                    "AdditionalEmailFooterText": {"default": "Additional Footer text:"},
+                    "KmsKeyId": {"default": "SNS Topic encryption key:"}
             }
         }},
         "Resources" : {
@@ -62,7 +76,8 @@
                 "Subscription" : [{
                     "Endpoint" : { "Ref" : "EmailAddress" },
                     "Protocol" : "email"
-                  }]
+                  }],
+                "KmsMasterKeyId": {"Fn::If": ["IsKmsKeyIdProvided", {"Ref": "KmsKeyId"}, {"Ref": "AWS::NoValue"}]}
               }
             },
             "SecurityHubSummaryEmailSchedule": {
@@ -359,5 +374,8 @@
                 "insightID" : "6"
             }
         }
+    },
+    "Conditions": {
+      "IsKmsKeyIdProvided": {"Fn::Not": [{"Fn::Equals": [{"Ref": "KmsKeyId"}, ""]}]}
     }
 }
