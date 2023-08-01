@@ -59,12 +59,64 @@
               "Properties": {
                 "TopicName" : "SecurityHubRecurringSummary",
                 "DisplayName" : "Security Hub Summary Report",
+                "KmsMasterKeyId": { "Ref" : "SecurityHubSNSKey" },
                 "Subscription" : [{
                     "Endpoint" : { "Ref" : "EmailAddress" },
                     "Protocol" : "email"
                   }]
               }
-            },
+         },
+         "SecurityHubSNSKey": {
+              "Type": "AWS::KMS::Key",
+              "Properties": {
+                "KeyPolicy": {
+                  "Id": "DefaultKmsPolicy",
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Sid": "Enable IAM User Permissions",
+                      "Effect": "Allow",
+                      "Principal": {
+                        "AWS": [
+                          {
+                            "Fn::Join": [
+                              ":",
+                              [
+                                "arn:aws:iam:",
+                                {
+                                  "Ref": "AWS::AccountId"
+                                },
+                                "root"
+                              ]
+                            ]
+                          }
+                        ]
+                      },
+                      "Action": "kms:*",
+                      "Resource": "*"
+                    },
+                    {
+                      "Sid": "Enable CloudWatch Logs and SNS to Use Key",
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "logs.amazonaws.com",
+                          "sns.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "kms:Encrypt",
+                        "kms:Decrypt",
+                        "kms:ReEncrypt*",
+                        "kms:GenerateDataKey*",
+                        "kms:DescribeKey"
+                      ],
+                      "Resource": "*"
+                    }
+                  ]
+                }
+              }
+            },            
             "SecurityHubSummaryEmailSchedule": {
                 "Properties": {
                     "Name": "SecurityHubSummaryEmailSchedule",
