@@ -59,6 +59,7 @@
               "Properties": {
                 "TopicName" : "SecurityHubRecurringSummary",
                 "DisplayName" : "Security Hub Summary Report",
+                "KmsMasterKeyId": "alias/aws/sns",
                 "Subscription" : [{
                     "Endpoint" : { "Ref" : "EmailAddress" },
                     "Protocol" : "email"
