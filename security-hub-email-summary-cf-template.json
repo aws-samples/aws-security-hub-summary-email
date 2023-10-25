@@ -251,7 +251,7 @@
                     "S3Bucket": {"Ref": "S3BucketName"},
                     "S3Key": {"Ref": "S3KeyName"}
                 },
-                "Runtime": "python3.7",
+                "Runtime": "python3.10",
                 "Handler":"index.lambda_handler",
                 "Timeout": "30",
                 "Environment": {
