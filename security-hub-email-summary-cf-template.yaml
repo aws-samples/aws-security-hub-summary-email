@@ -203,7 +203,10 @@ Resources:
                   - logs:CreateLogGroup
                   - logs:CreateLogStream
                   - logs:PutLogEvents
-                Resource: arn:aws:logs:*:*:*
+                  - logs:TagResource
+                Resource:
+                  - arn:aws:logs:*:*:*
+                  - arn:aws:logs:*:*:*/*
 
 # Lambda function to send summary email
   SendSecurityHubSummaryEmailLambda:
