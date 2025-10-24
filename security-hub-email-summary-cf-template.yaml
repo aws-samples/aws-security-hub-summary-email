@@ -1,4 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
+Description: "Security Hub Email Template(uksb-g12x1zxv60)"
 Parameters:
   EmailAddress:
     Description: Email Address for Subscriber to Security Hub summary.
